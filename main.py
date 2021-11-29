@@ -4,78 +4,6 @@ import pandas as pd
 from datetime import datetime
 
 
-def make_header(title: str, weight: int = 1):
-    bars = "===="
-    return "\n" + bars*weight + "[ " + title + " ]" + bars*weight + "\n"
-
-
-def generate_split_string(print_report: bool = True):
-    # optimization = [" \"Operations Research\"", " \"Heuristics\"", " \"Particle Swarm\"",
-    #                 " \"Linear Programming\"", " \"Mixed Integer Linear Programming\""]
-    # flexibility = [
-    #     " (\"Matrix\" OR \"Modular\" OR \"Adaptive\" OR \"Flexible\" OR \"Reconfigurable\")",
-    #     " \"Matrix\"", " \"Modular\"", " \"Adaptive\"", " \"Flexible\"", " \"Reconfigurable\"",
-    # ]
-    # production = [" (\"Manufacturing\" OR \"Assembly\" OR \"Production\")",
-    #               " \"Manufacturing\"", " \"Assembly\"", " \"Production\""]
-    # planning = [
-    #     " \"Planning\"", " \"Configuration\"", " \"Capability\"",
-    #     " \"Ramp-up\"", ""
-    # ]
-    # others = [" \"Digital Twin\"", ""]
-
-    optimization = [" \"Operations Research\"", " \"Heuristics\""]
-    flexibility = [
-        " \"Matrix\"", " \"Modular\"", " \"Adaptive\"",
-    ]
-    production = [" (\"Manufacturing\" OR \"Assembly\" OR \"Production\")",
-                  " \"Manufacturing\"", " \"Assembly\"", " \"Production\""]
-    planning = [
-        " \"Planning\"", " \"Configuration\"", " \"Capability\"",
-        " \"Ramp-up\"", ""
-    ]
-    others = [""]
-
-    # Generate split strings
-    split_strings = []
-    current_string = ""
-
-    for opt in optimization:
-        for flex in flexibility:
-            for prod in production:
-                for plan in planning:
-                    for other in others:
-                        # Build the current string
-                        current_string = opt
-                        if flex:
-                            current_string += " AND " + flex
-                        if prod:
-                            current_string += " AND " + prod
-                        if plan:
-                            current_string += " AND " + plan
-                        if other:
-                            current_string += " AND " + other
-
-                        # Append to the list of split string
-                        split_strings.append(current_string)
-    if print_report:
-        print("[#] Total number of splits: " + str(len(split_strings)))
-    return split_strings
-
-
-def save_splits_to_file(f_name: str, split_strings: list[str]):
-    with open("./out/" + f_name, "w") as f:
-        for s in split_strings:
-            f.write(s + "\n")
-
-
-def save_search_results_to_file(f_name: str, search_results: list[tuple[int, str]]):
-    with open("./out/" + f_name, "w") as f:
-        f.write("num_results search_string\n")
-        for s in search_results:
-            f.write(str(s[0]) + " " + s[1] + "\n")
-
-
 def clean_data_frame(df: pd.DataFrame):
     # Drop unnecessary columns
     new_df = df.drop(columns=["eid", "pii", "pubmed_id", "subtype", "afid", "affilname", "affiliation_city", "affiliation_country",
@@ -90,7 +18,7 @@ def clean_data_frame(df: pd.DataFrame):
 def main():
     print("[$] Program start.")
 
-    now = datetime.now() # current date and time
+    now = datetime.now()  # current date and time
     date_time = now.strftime("%Y.%m.%d_%H-%M-%S")
 
     split_strings = generate_split_string()
