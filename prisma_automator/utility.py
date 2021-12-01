@@ -4,7 +4,7 @@ def save_to_file_advanced(file_path: str, header: str, lines_to_write: list[tupl
         for l in lines_to_write:  # then write every line
             full_line = ""
             for column in l:  # append columns to the full line
-                full_line += column + separator
+                full_line += f"{column}{separator}"
             f.write(full_line + "\n")
 
 
