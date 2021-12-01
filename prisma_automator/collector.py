@@ -25,7 +25,7 @@ class Collector:
         new_df = new_df.drop_duplicates()
 
         if log:
-            num_duplicates = new_df.shape[0] - shape[0]
+            num_duplicates = shape[0] - new_df.shape[0]
             print(f"[#] Removed {num_duplicates} duplicates.")
 
         if log:
@@ -54,7 +54,8 @@ class Collector:
             print(f"[#] Current Progress: {i}/{num_splits}", end="\r")
             search = "TITLE-ABS-KEY(" + s + ")"
             try:
-                ss = ScopusSearch(search, subscriber, download)
+                ss = ScopusSearch(
+                    search, subscriber=subscriber, download=download)
                 num_results = ss.get_results_size()  # Number of search results
                 if num_results > threshold:
                     excluded_results.append((num_results, s))
