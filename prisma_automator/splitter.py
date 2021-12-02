@@ -142,5 +142,6 @@ class Splitter:
 
         if save_to:
             save_to_file(file_path=save_to, lines_to_write=splits)
+            print(f"[/] Generated splits saved to: {save_to}")
 
         return splits
