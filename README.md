@@ -50,7 +50,7 @@ After setting your keyword groups, run
 python main.py
 ```
 
-For an example and more details about keyword groups, see [Detailed Explanation](#detailed-explanation).
+For an example and more details about keyword groups, see [Use case](#use-case).
 
 ## Detailed Explanation
 
