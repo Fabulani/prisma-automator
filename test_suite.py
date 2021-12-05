@@ -142,7 +142,7 @@ class TestCollector:
                             'pageRange', 'description', 'authkeywords', 'citedby_count',
                             'openaccess', 'fund_acr', 'fund_no', 'fund_sponsor']
         all_results = self.collector.search(
-            splits=self.splits, subscriber=False, download=True, threshold=1000, log=False)
+            splits=self.splits, subscriber=False, threshold=1000, log=False)
         df = all_results[0]
         assert all(column in df for column in expected_columns) and len(
             df.columns) == len(expected_columns)
@@ -152,7 +152,7 @@ class TestCollector:
                             'author_names', 'coverDate', 'volume', 'issueIdentifier', 'pageRange',
                             'description', 'authkeywords', 'citedby_count', 'openaccess']
         all_results = self.collector.search(
-            splits=self.splits, subscriber=False, download=True, threshold=1000, log=False)
+            splits=self.splits, subscriber=False, threshold=1000, log=False)
         df = all_results[0]
         screened_df = self.collector.screen(df=df, log=False)
         assert all(column in screened_df for column in expected_columns) and len(
@@ -160,7 +160,7 @@ class TestCollector:
 
     def test_screen_removed_conference_reviews(self, create_collector_and_splits):
         all_results = self.collector.search(
-            splits=self.splits, subscriber=False, download=True, threshold=1000, log=False)
+            splits=self.splits, subscriber=False, threshold=1000, log=False)
         df = all_results[0]
         screened_df = self.collector.screen(df=df, log=False)
         assert 'Conference Review' not in screened_df.subtypeDescription.unique()
@@ -170,7 +170,7 @@ class TestCollector:
         Duplicates in this test are checked with both "doi" and "title" columns.
         """
         all_results = self.collector.search(
-            splits=self.splits, subscriber=False, download=True, threshold=1000, log=False)
+            splits=self.splits, subscriber=False, threshold=1000, log=False)
         df = all_results[0]
         screened_df = self.collector.screen(df=df, log=False)
         num_duplicates = screened_df.duplicated(subset=['doi', 'title']).sum()
@@ -178,12 +178,12 @@ class TestCollector:
 
     def test_screen_removed_rows_without_doi(self, create_collector_and_splits):
         """
-        NOTE: test needs to be improved! It'll always pass for the current splits.
+        NOTE: test needs to be improved! It'll always pass for the current splits because they don't result in duplicates!
         TODO: instead of using collector.search() to get the dataframe, create
         the dataframe manually and then screen it.
         """
         all_results = self.collector.search(
-            splits=self.splits, subscriber=False, download=True, threshold=1000, log=False)
+            splits=self.splits, subscriber=False, threshold=1000, log=False)
         df = all_results[0]
         screened_df = self.collector.screen(df=df, log=False)
         assert '' not in screened_df.doi.unique()

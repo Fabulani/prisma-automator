@@ -30,7 +30,7 @@ def main():
     collector = Collector()
 
     # Search Scopus using the generated splits. Results are saved to "./out".
-    collector.run(splits)
+    collector.run(splits, subscriber=True, threshold=1000, log=True)
 
     """ Time report: program end """
     end = datetime.now()
