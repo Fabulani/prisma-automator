@@ -178,7 +178,7 @@ class TestCollector:
 
     def test_screen_removed_rows_without_doi(self, create_collector_and_splits):
         """
-        NOTE: test needs to be improved! It'll always pass for the current splits because they don't result in duplicates!
+        NOTE: test needs to be improved! It'll always pass for the current splits because they don't result in any empty doi!
         TODO: instead of using collector.search() to get the dataframe, create
         the dataframe manually and then screen it.
         """
