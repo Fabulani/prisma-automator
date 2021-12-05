@@ -6,17 +6,18 @@ Automates the initial steps of the PRISMA statement: split-string generation, ar
   - [Quickstart](#quickstart)
     - [Environment](#environment)
     - [Elsevier API Key](#elsevier-api-key)
-    - [Key word groups](#key-word-groups)
+    - [Keyword groups](#keyword-groups)
   - [Detailed Explanation](#detailed-explanation)
     - [Splitter](#splitter)
     - [Collector](#collector)
     - [Use case](#use-case)
+    - [Test suite](#test-suite)
   - [Limitations](#limitations)
 
 ## Requirements
 - Python 3.x
 
-Note: package developed with Python 3.9.1
+**Note:** package developed with Python 3.9.1
 
 ## Quickstart
 ### Environment
@@ -33,7 +34,7 @@ conda env create -f environment.yml
 conda activate prisma-automator
 conda env list
 ```
-Note: The last line if for verifying if the environment was created successfully. The environment name `prisma-automator` can be changed in the `environment.yml` file.
+**Note:** The last line is for verifying if the environment was created successfully. The environment name `prisma-automator` can be changed in the `environment.yml` file.
 
 ### Elsevier API Key
 
@@ -41,12 +42,12 @@ Follow instructions in [Pybliometrics: How to access Scopus](https://pybliometri
 
 The first time you run `main.py`, it'll request your API key when it attempts to search Scopus. Follow the instructions in the console.
 
-### Key word groups
+### Keyword groups
 
 Open `main.py`, look for a section named ` """ Split string generation """` and `# Create keyword groups`. Edit/add/delete keyword group variables to your liking.
 
 After setting your keyword groups, run
-```py
+```sh
 python main.py
 ```
 
@@ -63,6 +64,10 @@ The `Collector` class is responsible for interacting with the Scopus API and ret
 Both classes come with methods to wrap all of their functionality and streamline the process of adquiring search strings and Scopus results. Nonetheless, it's also possible to use the other methods and alter the default functionality to suit any particular needs.
 
 `Splitter` has the `split()` method, and `Collector` has the `run()` method. Start by looking into these if you want to understand how everything works.
+
+The following class diagram presents an overview of the system:
+
+![prisma_automator class diagram](./doc/cd_PrismaAutomator.drawio.png)
 
 ### Splitter
 The `Splitter` class uses a recursive depth-first search to generate all possible keyword combinations. Before that, it's necessary to generate an adjacency graph to represent the tree. The generated combinations are then parsed to generate splits that are searchable in Scopus.
@@ -138,6 +143,8 @@ collector = Collector()
 collector.run(splits)
 ```
 
+**Note:** see [Limitations](#limitations) about subscriber access and the `run()` method.
+
 You'll find 3 new files in the `./out` folder: 
 - `search_results.txt`: contains the splits that had less than 1000 results (configurable through the `threshold` parameter in the `Collector.collect()` method, upto 5000) and of which results were saved, as well as the amount of results found;
 - `excluded_results.txt`: contains the splits that were excluded from the search because they had too many results. Also contains the number of results of each split.
@@ -145,12 +152,25 @@ You'll find 3 new files in the `./out` folder:
 
 Open up `search_results.txt` and `excluded_results.txt` to analyse the effectiveness of your splits. Open `final_results.xlsx` to continue with the PRISMA statement: analyse which articles aren't relevant to your research, exclude them, and continue!
 
+### Test suite
+To run the test suite, run
+```sh
+pytest
+```
+while in the root of the project (where `test_suite.py` is).
+
 ## Limitations
 
 The Scopus API is limited for those without subscriber access. This means that, by default, you won't have access to these critical data:
 - abstract text;
 - author keywords.
 
-`prisma-automator` assumes non-subscriber access by default. If you have an API Key with subscriber access, you'll need to override the parameters of the `Collector` class' `search()` method by setting `collector.search(splits, subscriber=True)`. This means that you'll need to change the `run()` method, or copy the contents of the method to `main.py`, so that you can run the whole process. 
+`prisma-automator` assumes non-subscriber access by default. If you have an API Key with subscriber access, you'll need to override the parameters of the `Collector` class' `run()` method by setting `collector.run(splits, subscriber=True)`. 
 
-A priority to-do is to add parameters to the `run()` method to allow easy configuration of search parameters.
+For more on getting subscriber access, see [Pybliometrics: How to access Scopus](https://pybliometrics.readthedocs.io/en/stable/access.html).
+
+To sum it up, the quickest methods are (assuming your institution has subscriber access):
+- you are in your instition’s network;
+- you use your instition’s VPN.
+
+For limitations on API Key quotas, see [Pybliometrics: API Key quotas and 429 error](https://pybliometrics.readthedocs.io/en/stable/access.html#api-key-quotas-and-429-error)
