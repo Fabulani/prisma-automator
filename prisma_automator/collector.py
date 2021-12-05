@@ -6,7 +6,7 @@ from prisma_automator.utility import save_to_file_advanced
 
 
 class Collector:
-    def search(self, splits: list, subscriber: bool = False, download: bool = True, threshold: int = 1000, log: bool = True) -> tuple[pd.DataFrame, list, list]:
+    def search(self, splits: list, subscriber: bool = False, threshold: int = 1000, log: bool = True) -> tuple[pd.DataFrame, list, list]:
         """ Identification phase of the PRISMA statement. Search through Scopus using `splits` and return results.
 
         `splits`: list of split search strings.
@@ -28,7 +28,7 @@ class Collector:
             search = "TITLE-ABS-KEY(" + s + ")"
             try:
                 ss = ScopusSearch(
-                    search, subscriber=subscriber, download=download)
+                    search, subscriber=subscriber, download=True)
                 num_results = ss.get_results_size()  # Number of search results
                 if num_results > threshold:
                     excluded_results.append((num_results, s))
@@ -97,7 +97,7 @@ class Collector:
                 f"[#] New dataframe with {new_shape[0]} rows and {new_shape[1]} columns.")
         return new_df
 
-    def run(self, splits: list, save_to: str = "./out/"):
+    def run(self, splits: list, save_to: str = "./out/", subscriber: bool = False, threshold: int = 1000, log: bool = True):
         """ Execute methods associated with Identification and Screening phases of the PRISMA statement
 
         `splits`: list of split search strings.
@@ -105,7 +105,8 @@ class Collector:
         """
 
         print("[#] Identification: searching Scopus...")
-        df, search_results, excluded_results = self.search(splits)
+        df, search_results, excluded_results = self.search(
+            splits, subscriber=subscriber, threshold=threshold, log=log)
 
         if save_to:
             path_search_results = save_to + "search_results.txt"
@@ -124,7 +125,7 @@ class Collector:
 
         print("[#] Screening: cleaning dataframe...")
 
-        new_df = self.screen(df)
+        new_df = self.screen(df, log=log)
 
         if save_to:
             path_final_results = save_to + "final_results.xlsx"
