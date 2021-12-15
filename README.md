@@ -127,7 +127,7 @@ splitter.add_kwgroup(group_1)
 
 # Add multiple groups
 kw_groups = [group_2, group_3]
-splitter.add_kwgroups(kwgroups)
+splitter.add_kwgroups(kw_groups)
 ```
 
 To generate splits, call the `split()` method.
