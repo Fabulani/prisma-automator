@@ -61,7 +61,7 @@ The `Splitter` class is responsible for generating all possible search strings (
 
 The `Collector` class is responsible for interacting with the Scopus API and retrieving results, as well as cleaning them up before saving them to a local directory.
 
-Both classes come with methods to wrap all of their functionality and streamline the process of adquiring search strings and Scopus results. Nonetheless, it's also possible to use the other methods and alter the default functionality to suit any particular needs.
+Both classes come with methods to wrap all of their functionality and streamline the process of acquiring search strings and Scopus results. Nonetheless, it's also possible to use the other methods and alter the default functionality to suit any particular needs.
 
 `Splitter` has the `split()` method, and `Collector` has the `run()` method. Start by looking into these if you want to understand how everything works.
 
