@@ -65,8 +65,8 @@ class Collector:
         if log:
             print(f"[#] Dropped {len(columns_to_drop)} columns.")
 
-        # Remove duplicates
-        new_df = new_df.drop_duplicates()
+        # Remove duplicates based on the title and description columns
+        new_df = new_df.drop_duplicates(subset=['title', 'description'])
 
         if log:
             new_shape = new_df.shape
