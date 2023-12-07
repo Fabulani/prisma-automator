@@ -20,20 +20,21 @@ Automates the initial steps of the PRISMA statement: split-string generation, ar
 
 ## Quickstart
 ### Environment
-If familiar with virtual environments:
+(Optional) Create a virtual environment:
 ```sh
-python -m venv .env
-./.env/Scripts/Activate
-python -m pip install -r requirements.txt
+python -m venv venv
+
+# Windows
+./venv/Scripts/Activate
+
+# Linux
+./venv/bin/activate
 ```
 
-If using Anaconda:
+Install requirements:
 ```sh
-conda env create -f environment.yml
-conda activate prisma-automator
-conda env list
+pip install -r requirements.txt
 ```
-**Note:** The last line is for verifying if the environment was created successfully. The environment name `prisma-automator` can be changed in the `environment.yml` file.
 
 ### Elsevier API Key
 
