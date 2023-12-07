@@ -1,10 +1,13 @@
 from datetime import datetime
+from pybliometrics.scopus.utils import config
 
 from prisma_automator.collector import Collector
 from prisma_automator.splitter import Splitter
 
 
 def main():
+    print(f"Using API Key: {config['Authentication']['APIKey']}")
+
     """ Time report: program start """
     start = datetime.now()
     time = start.strftime("%H:%M:%S")
