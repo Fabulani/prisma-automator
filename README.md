@@ -1,18 +1,17 @@
 # prisma-automator
 Automates the initial steps of the PRISMA statement: split-string generation, article search, search result screening, and data saving to an Excel sheet for further analysis.
 
-- [prisma-automator](#prisma-automator)
-  - [Requirements](#requirements)
-  - [Quickstart](#quickstart)
-    - [Environment](#environment)
-    - [Elsevier API Key](#elsevier-api-key)
-    - [Keyword groups](#keyword-groups)
-  - [Detailed Explanation](#detailed-explanation)
-    - [Splitter](#splitter)
-    - [Collector](#collector)
-    - [Use case](#use-case)
-    - [Test suite](#test-suite)
-  - [Limitations](#limitations)
+- [Requirements](#requirements)
+- [Quickstart](#quickstart)
+  - [Environment](#environment)
+  - [Elsevier API Key](#elsevier-api-key)
+  - [Keyword groups](#keyword-groups)
+- [Detailed Explanation](#detailed-explanation)
+  - [Splitter](#splitter)
+  - [Collector](#collector)
+  - [Use case](#use-case)
+  - [Test suite](#test-suite)
+- [Limitations](#limitations)
 
 ## Requirements
 - Python 3.x
@@ -41,6 +40,8 @@ conda env list
 Follow instructions in [Pybliometrics: How to access Scopus](https://pybliometrics.readthedocs.io/en/stable/access.html).
 
 The first time you run `main.py`, it'll request your API key when it attempts to search Scopus. Follow the instructions in the console.
+
+You can also change your key by editing `APIKey` in `C:\Users\<YOU>\.pybliometrics\config.ini` under `[Authentication]`.
 
 ### Keyword groups
 
