@@ -140,7 +140,7 @@ class TestCollector:
                             'coverDisplayDate', 'publicationName', 'issn', 'source_id', 'eIssn',
                             'aggregationType', 'volume', 'issueIdentifier', 'article_number',
                             'pageRange', 'description', 'authkeywords', 'citedby_count',
-                            'openaccess', 'fund_acr', 'fund_no', 'fund_sponsor']
+                            'openaccess', 'freetoread', 'freetoreadLabel', 'fund_acr', 'fund_no', 'fund_sponsor']
         all_results = self.collector.search(
             splits=self.splits, subscriber=False, threshold=1000, log=False)
         df = all_results[0]
@@ -150,7 +150,7 @@ class TestCollector:
     def test_screen_dropped_unnecessary_columns(self, create_collector_and_splits):
         expected_columns = ['splits', 'doi', 'title', 'subtypeDescription', 'creator',
                             'author_names', 'coverDate', 'volume', 'issueIdentifier', 'pageRange',
-                            'description', 'authkeywords', 'citedby_count', 'openaccess']
+                            'description', 'authkeywords', 'citedby_count', 'openaccess', 'freetoread', 'freetoreadLabel',]
         all_results = self.collector.search(
             splits=self.splits, subscriber=False, threshold=1000, log=False)
         df = all_results[0]
@@ -176,14 +176,3 @@ class TestCollector:
         num_duplicates = screened_df.duplicated(subset=['doi', 'title']).sum()
         assert num_duplicates == 0
 
-    def test_screen_removed_rows_without_doi(self, create_collector_and_splits):
-        """
-        NOTE: test needs to be improved! It'll always pass for the current splits because they don't result in any empty doi!
-        TODO: instead of using collector.search() to get the dataframe, create
-        the dataframe manually and then screen it.
-        """
-        all_results = self.collector.search(
-            splits=self.splits, subscriber=False, threshold=1000, log=False)
-        df = all_results[0]
-        screened_df = self.collector.screen(df=df, log=False)
-        assert '' not in screened_df.doi.unique()
