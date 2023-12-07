@@ -1,5 +1,5 @@
 from prisma_automator.utility import save_to_file
-
+from itertools import product
 
 class Splitter:
     def __init__(self):
@@ -145,3 +145,8 @@ class Splitter:
             print(f"[/] Generated splits saved to: {save_to}")
 
         return splits
+
+    def combination(kw_groups):
+        # Generate all possible combinations of keywords
+        return list(product(*kw_groups))
+    
