@@ -17,7 +17,6 @@ class Collector:
         `threshold`: if number of search results goes over this value, they're 
         added to the excluded results group and ignored for the dataframe.
         """
-        df = pd.DataFrame()  # Dataframe for later exporting to Excel
         search_results = []
         excluded_results = []
         num_splits = len(splits)
@@ -36,13 +35,12 @@ class Collector:
                     search_results.append((num_results, s))
                     results_df = pd.DataFrame(ss.results)
                     results_df.insert(0, 'splits', s)   # Add "splits" to df
-                    df = df.append(results_df)
             except ScopusQueryError:
                 excluded_results.append((">5000", s))
             i += 1
         if log:
             print(f"[$] Current Progress: {i}/{num_splits} (done)")
-        return df, search_results, excluded_results
+        return results_df, search_results, excluded_results
 
     def screen(self, df: pd.DataFrame, log: bool = True) -> pd.DataFrame:
         """ Screening phase of the PRISMA statement. Drop unnecessary columns and remove duplicates.
