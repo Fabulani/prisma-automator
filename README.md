@@ -69,7 +69,7 @@ Both classes come with methods to wrap all of their functionality and streamline
 
 The following class diagram presents an overview of the system:
 
-![prisma_automator class diagram](./doc/cd_PrismaAutomator.drawio.png)
+![prisma_automator class diagram](./doc/cd_PrismaAutomator.png)
 
 ### Splitter
 The `Splitter` class uses a recursive depth-first search to generate all possible keyword combinations. Before that, it's necessary to generate an adjacency graph to represent the tree. The generated combinations are then parsed to generate splits that are searchable in Scopus.
